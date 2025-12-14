@@ -1,23 +1,610 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
+  <style>
+        /* 기본 스타일 및 색상 팔레트 */
+        :root {
+            --primary-color: #3f51b5; /* 인디고 블루 */
+            --secondary-color: #ff9800; /* 앰버 오렌지 */
+            --accent-color: #4caf50; /* 그린 */
+            --background-light: #f4f5fa; /* 밝은 회색/블루 */
+            --text-dark: #333;
+            --text-light: #fff;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: var(--background-light);
+            color: var(--text-dark);
+            font-size: 16px;
+        }
+
+        header, section, footer {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 20px 25px;
+            background: var(--text-light);
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid rgba(63, 81, 181, 0.1);
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+
+        h1 { font-size: 2.2em; text-align: center; color: var(--primary-color); }
+        h2 { font-size: 1.8em; }
+        h3 { font-size: 1.4em; color: var(--secondary-color); border-bottom: none; }
+
+        /* 내비게이션 */
+        nav {
+            background: var(--primary-color);
+            color: var(--text-light);
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            margin-top: 25px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        nav li {
+            padding: 10px 15px;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s, background-color 0.3s;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--primary-color);
+            color: var(--text-light);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+        
+        /* 목록 스타일 */
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+
+        ul li, ol li {
+            margin-bottom: 10px;
+        }
+        
+        /* CTA 버튼 */
+        .btn-cta {
+            display: block;
+            width: 100%;
+            max-width: 350px;
+            margin: 20px auto;
+            padding: 15px 25px;
+            background: var(--secondary-color);
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 1.1em;
+            border-radius: 30px;
+            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4);
+            transition: background-color 0.3s ease, transform 0.2s;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-cta:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+        }
+
+        /* 폼 스타일 */
+        #contact form {
+            background: var(--background-light);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            max-width: 700px;
+            margin: 20px auto;
+        }
+
+        #contact label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        #contact input[type="text"],
+        #contact input[type="tel"],
+        #contact input[type="email"],
+        #contact select,
+        #contact textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        #contact button[type="submit"] {
+            background: var(--accent-color);
+            width: 100%;
+            color: var(--text-light);
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+
+        #contact button[type="submit"]:hover {
+            background: #388e3c;
+        }
+
+        /* 기타 스타일 */
+        .highlight {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .note {
+            background: #ffe0b2; /* 연한 오렌지 */
+            padding: 15px;
+            border-left: 5px solid var(--secondary-color);
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* 앵커 */
+        .anchor {
+            display: block;
+            position: relative;
+            top: -90px;
+            visibility: hidden;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            header, section, footer {
+                padding: 15px;
+                margin: 15px auto;
+            }
+
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.5em; }
+            h3 { font-size: 1.2em; }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav li {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "대전이사청소 프리미엄 서비스",
+      "image": "https://example.com/daejeon-cleaning-logo.png",
+      "url": "https://example.com/daejeon-cleaning",
+      "telephone": "042-987-6543",
+      "priceRange": "₩₩₩",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "대전광역시 서구 둔산로 100",
+        "addressLocality": "대전광역시",
+        "addressRegion": "대전",
+        "postalCode": "35231",
+        "addressCountry": "KR"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "대전광역시 서구" },
+        { "@type": "City", "name": "대전광역시 유성구" },
+        { "@type": "City", "name": "대전광역시 중구" },
+        { "@type": "City", "name": "대전광역시 동구" },
+        { "@type": "City", "name": "대전광역시 대덕구" }
+      ],
+      "description": "대전시 전 지역 이사 청소, 입주 청소, 거주 청소 전문. 체계적인 10단계 청소 프로세스로 고객 만족도 최상."
+    }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>🏠 대전 이사 청소 전문 서비스: 완벽한 입주 & 거주 청소를 위한 최적의 선택</h1>
+        <p>대전 전 지역(서구, 유성구, 동구, 중구, 대덕구) 아파트, 빌라, 원룸, 오피스텔 등 모든 주거 형태의 <span class="highlight">프리미엄 이사 청소, 입주 청소, 거주 청소</span>를 전문으로 합니다. 2026년 최신 기준, 합리적인 비용으로 최고의 청결함을 약속드립니다.</p>
+        <a href="#contact" class="btn-cta">✨ 지금 바로 무료 견적 상담 신청하기</a>
+    </header>
+
+    <nav aria-label="주요 서비스 바로가기">
+        <ul>
+            <li><a href="#service-intro">청소 개요</a></li>
+            <li><a href="#area-info">서비스 지역</a></li>
+            <li><a href="#process">청소 프로세스</a></li>
+            <li><a href="#pricing">2026년 비용</a></li>
+            <li><a href="#checklist">필수 체크리스트</a></li>
+            <li><a href="#trust">신뢰 정보</a></li>
+            <li><a href="#contact">견적 문의</a></li>
+        </ul>
     </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
+
+    <section id="service-intro">
+        <span id="service-intro-anchor" class="anchor"></span>
+        <h2>✅ 대전이사청소: 왜 전문가가 필요할까요?</h2>
+        <p>새로운 시작을 알리는 이사는 설렘과 동시에 수많은 짐 정리와 청소라는 부담을 안겨줍니다. 특히, <span class="highlight">대전이사청소</span>는 단순히 눈에 보이는 먼지를 제거하는 것을 넘어, 전 거주자의 생활 흔적, 건축 분진, 곰팡이 포자 등 건강을 위협하는 요소들을 완벽하게 제거해야 하는 전문 영역입니다. 저희 서비스는 고객님의 시간과 노력을 절약하고, 화학 잔여물 걱정 없는 친환경 약품과 전문 장비를 사용하여 쾌적한 주거 환경을 조성합니다.</p>
+        
+        <h3>입주 청소 vs 거주 청소 vs 이사 청소의 차이점</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>유형</th>
+                    <th>대상</th>
+                    <th>청소 범위</th>
+                    <th>특징</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="highlight">입주 청소</span></td>
+                    <td>신축 건물, 첫 입주</td>
+                    <td>건축 분진, 시멘트 가루, 보양재 흔적 제거</td>
+                    <td>새집 증후군 유발 물질 제거에 중점</td>
+                </tr>
+                <tr>
+                    <td><span class="highlight">이사 청소 (퇴거/입주)</span></td>
+                    <td>기존 거주자가 살던 건물</td>
+                    <td>생활 찌든 때, 곰팡이, 묵은 때 완벽 제거</td>
+                    <td>다음 세입자를 위한 퇴거 청소 및 입주 전 정화</td>
+                </tr>
+                <tr>
+                    <td><span class="highlight">거주 청소 (살면서 청소)</span></td>
+                    <td>현재 거주 중인 건물</td>
+                    <td>생활 공간을 제외한 구역 (주방/욕실 찌든 때, 베란다 등)</td>
+                    <td>고객님 생활 공간을 최대한 보호하며 진행</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="note">대전 지역 고객님들께서 가장 많이 의뢰하시는 서비스는 <span class="highlight">이사 청소</span>와 <span class="highlight">입주 청소</span>이며, 특히 <span class="highlight">서구 둔산동</span>, <span class="highlight">유성구 도안동</span>의 신축 아파트 단지에서 입주 청소 문의가 폭증하고 있습니다.</p>
+    </section>
+
+    <section id="area-info">
+        <span id="area-info-anchor" class="anchor"></span>
+        <h2>🌐 대전이사청소 서비스 가능 지역 (5개 구 88개 동 이상 커버)</h2>
+        <p>저희 대전이사청소 전문팀은 대전광역시 전 지역에서 신속하고 체계적인 서비스를 제공합니다. 지역별 특성을 고려한 맞춤형 청소를 진행하여 고객 만족도를 높이고 있습니다. 특히 대전 전역의 아파트, 빌라, 원룸, 오피스텔 등 다양한 주거 형태에 특화된 청소 노하우를 보유하고 있습니다.</p>
+        
+        <p><strong>대전광역시 5개 구 상세 서비스 지역 목록:</strong></p>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+            <div style="width: 48%; min-width: 300px;">
+                <h3>서구 (가장 활발한 서비스 지역)</h3>
+                <p>대전의 중심지인 서구는 <span class="highlight">둔산동, 탄방동, 갈마동, 월평동, 만년동, 관저동, 도안동</span> 등 주요 주거 지역을 아우릅니다. 특히 행정 및 상업 시설이 밀집한 둔산동, 신규 아파트 단지가 많은 관저동과 도안동의 입주 청소 수요가 높습니다. <span class="highlight">용문동, 변동, 복수동, 정림동, 가수원동, 괴정동, 내동, 도마동, 평촌동, 원정동, 오동, 우명동, 장안동, 봉곡동</span> 등 모든 행정동 및 법정동을 커버합니다.</p>
+                
+                <h3>유성구 (신축 아파트 및 연구단지 인근)</h3>
+                <p>연구단지와 대학교가 밀집한 유성구는 <span class="highlight">도룡동, 전민동, 관평동, 노은동, 지족동, 반석동, 봉명동, 상대동</span>의 입주 청소 및 원룸 이사 청소 문의가 많습니다. 깨끗한 환경을 선호하는 고객층이 많아 디테일한 청소가 중요합니다. <span class="highlight">궁동, 어은동, 구암동, 덕명동, 복용동, 장대동, 계산동, 학하동, 송강동, 봉산동, 신성동, 자운동, 하기동, 세동, 금탄동, 용계동, 탑립동, 원촌동, 문지동</span> 등 광범위한 지역을 서비스합니다.</p>
+                
+                <h3>동구 (재개발 및 재건축 지역 중심)</h3>
+                <p>대전역을 중심으로 발전하고 있는 동구는 <span class="highlight">가양동, 용운동, 자양동, 대동, 판암동, 가오동</span> 등 주거 지역의 이사 청소 수요가 꾸준합니다. 특히 재건축, 재개발로 인한 신축 입주 청소 수요 증가에 발맞춰 전문적인 서비스를 제공합니다. <span class="highlight">소제동, 정동, 인동, 신안동, 신흥동, 효동, 천동, 낭월동, 대청동, 산내동, 추동, 세천동, 주산동, 용전동, 홍도동, 삼성동</span> 등을 포함합니다.</p>
+            </div>
+            
+            <div style="width: 48%; min-width: 300px;">
+                <h3>중구 (원도심 및 주택 밀집 지역)</h3>
+                <p>대전의 원도심 중구는 <span class="highlight">대흥동, 은행동, 선화동, 문화동, 태평동, 오류동, 목동</span> 등 오래된 주택과 아파트가 혼재된 지역입니다. 묵은 때, 물때, 곰팡이 제거에 특화된 고강도 이사 청소가 필요합니다. <span class="highlight">사정동, 안영동, 석교동, 부사동, 문창동, 대사동, 용두동, 유천동, 산성동, 호동, 무수동, 금동, 옥계동, 대사동</span> 등 주택 밀집 지역까지 청소 전문가들이 방문합니다.</p>
+
+                <h3>대덕구 (산업 단지 및 외곽 지역)</h3>
+                <p>대덕구는 산업단지 인근 <span class="highlight">송촌동, 법동, 비래동, 오정동, 신탄진동</span> 등 지역의 이사 청소 문의가 활발합니다. 공장 및 산업 환경 인근 주거지의 특성을 고려한 맞춤형 청소를 진행합니다. <span class="highlight">덕암동, 목상동, 문평동, 상서동, 평촌동, 이현동, 장동, 구즉동, 대화동, 연축동, 와동, 읍내동, 회덕동</span> 등 대덕구 전역을 아우르는 청소 서비스를 제공합니다.</p>
+                
+                <h3 style="margin-top: 40px;">주변 연관 키워드 (자동완성/함께 많이 찾는 키워드 포함)</h3>
+                <p style="font-size: 0.9em;">대전이사청소가격, 대전입주청소비용, 대전원룸이사청소, 대전반포장이사청소, 대전빌라청소, 대전오피스텔청소, 대전청소대행, 대전화재청소, 대전줄눈시공, 대전새집증후군, 대전청소업체추천, 대전홈케어, 대전포인트별 청소, 대전피톤치드, 대전마루코팅, 대전시스템에어컨 청소.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="process">
+        <span id="process-anchor" class="anchor"></span>
+        <h2>🔬 대전 청소 전문가의 체계적인 10단계 청소 프로세스</h2>
+        <p>저희 프리미엄 대전이사청소 서비스는 표준화된 10단계 청소 프로세스를 통해 모든 공간을 놓치지 않고 완벽하게 정화합니다. 전문 장비(고압 스팀기, 친환경 세제, 흡진기 등)를 활용하여 보이지 않는 곳까지 케어합니다.</p>
+        
+        <ol>
+            <li><strong>사전 점검 및 고객 니즈 확인:</strong> 청소 전 파손 여부 및 고객 요청 사항(특히 집중 청소 필요 구역: 주방 기름때, 욕실 곰팡이 등)을 기록합니다.</li>
+            <li><strong>분리 작업:</strong> 모든 서랍, 탈착식 선반, 조명 커버, 환풍구 커버, 창문(이중창 안쪽), 싱크대 걸레받이 등을 분리하여 내부까지 청소할 수 있는 환경을 만듭니다. </li>
+            <li><strong>주요 오염 구역 집중 청소 (주방 및 욕실):</strong> 고온 스팀 및 전용 세제를 사용하여 주방의 찌든 기름때, 후드 필터, 가스레인지/인덕션 주변을 집중 제거합니다. 욕실의 곰팡이, 물때, 배수구 내부까지 완벽하게 소독 및 청소합니다.</li>
+            <li><strong>창틀 및 베란다 청소:</strong> 창틀의 묵은 먼지, 실외기실의 흙먼지, 베란다 배수구 등을 꼼꼼히 제거합니다. 이중창 레일 안쪽의 미세먼지는 전용 도구로 흡진합니다.</li>
+            <li><strong>내부 공간 청소 (벽, 천장, 수납공간):</strong> 벽과 천장의 거미줄, 먼지를 제거하고 모든 수납장의 내부/외부를 전용 살균제를 사용하여 닦아냅니다.</li>
+            <li><strong>바닥 청소 (1차 대청소):</strong> 대형 오염물 및 잔해물을 제거하고 바닥 전용 세제를 사용하여 1차적으로 바닥 표면을 청소합니다.</li>
+            <li><strong>미세먼지 제거 (집진 작업):</strong> 헤파 필터가 장착된 전문 청소기를 사용하여 공기 중의 미세먼지 및 바닥의 잔여 분진을 흡입합니다. 이는 <span class="highlight">신축 아파트의 입주 청소</span> 시 건축 분진 제거에 필수적인 과정입니다.</li>
+            <li><strong>피톤치드 서비스 및 살균 소독 (선택/기본):</strong> 탈취 및 새집 증후군 예방을 위한 피톤치드 연무 서비스 또는 살균 소독을 진행합니다.</li>
+            <li><strong>바닥 마감 청소:</strong> 깨끗한 걸레와 중성 세제를 사용하여 바닥의 잔여 오염물을 최종적으로 제거하고 광택을 복원합니다.</li>
+            <li><strong>최종 점검 및 고객 검수:</strong> 고객님과 함께 청소 완료 구역을 둘러보며 미흡한 부분을 즉시 보완합니다. 청소 완료 후 피드백을 통해 서비스를 마무리합니다.</li>
+        </ol>
+        <p class="note">저희는 특히 대전 <span class="highlight">유성구 노은동</span>, <span class="highlight">서구 관저동</span>의 신규 입주 고객을 위해 피톤치드 서비스를 기본으로 제공하며, **최소 3시간에서 최대 8시간**에 이르는 꼼꼼한 청소 시간을 확보합니다.</p>
+    </section>
+    
+    <section id="pricing">
+        <span id="pricing-anchor" class="anchor"></span>
+        <h2>💰 2026년 대전이사청소 서비스 예상 비용 및 견적 안내</h2>
+        <p>이사 청소 비용은 면적(평당 단가), 오염도, 추가 서비스(줄눈, 탄성코트, 새집 증후군 등), 그리고 투입 인원에 따라 유동적입니다. 다음 표는 2026년 대전 지역 평균적인 평당 단가 및 예상 비용을 제시하며, 정확한 견적은 현장 방문 또는 상세 상담 후 확정됩니다.</p>
+        
+        <h3>청소 유형별 예상 평당 단가 (2026년 기준, VAT 별도)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>청소 유형</th>
+                    <th>평당 단가 (최소 ~ 최대)</th>
+                    <th>25평 아파트 예상 비용</th>
+                    <th>주요 특징 및 오염도</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="highlight">입주 청소 (신축)</span></td>
+                    <td>13,000원 ~ 16,000원</td>
+                    <td>325,000원 ~ 400,000원</td>
+                    <td>건축 분진 집중 제거, 비교적 낮은 오염도</td>
+                </tr>
+                <tr>
+                    <td><span class="highlight">이사 청소 (일반)</span></td>
+                    <td>15,000원 ~ 18,000원</td>
+                    <td>375,000원 ~ 450,000원</td>
+                    <td>생활 찌든 때, 묵은 때 제거에 중점, 보통 오염도</td>
+                </tr>
+                <tr>
+                    <td><span class="highlight">이사 청소 (심각)</span></td>
+                    <td>18,000원 ~ 25,000원 이상</td>
+                    <td>450,000원 ~ 625,000원 이상</td>
+                    <td>흡연, 반려동물, 장기간 방치 등 높은 오염도</td>
+                </tr>
+                <tr>
+                    <td>거주 청소 (부분)</td>
+                    <td>별도 협의 (시간당/구역별)</td>
+                    <td>문의</td>
+                    <td>세부 구역(주방/욕실/베란다) 집중 청소</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>비용 절감을 위한 팁과 고려 사항</h3>
+        <ul>
+            <li><strong>이사 날짜 조율:</strong> 비수기(3월~5월, 9월~11월 제외) 평일을 이용하면 할인을 받을 수 있습니다.</li>
+            <li><strong>오염도 체크:</strong> 곰팡이, 기름때가 심하거나 짐이 많아 청소 난이도가 높으면 추가 비용이 발생할 수 있으니 견적 시 정확하게 고지해야 합니다.</li>
+            <li><strong>서비스 범위 확정:</strong> 줄눈 시공, 마루 코팅, 새집 증후군 제거(피톤치드 서비스 이상의 전문 시공) 등은 청소와 별도로 추가 비용이 발생합니다. <span class="highlight">대전 서구 도안동</span>의 신축 입주 고객들은 마루 코팅을 함께 의뢰하는 경우가 많습니다.</li>
+            <li><strong>최소 평수 기준:</strong> 원룸이나 10평 미만의 소형 평수는 평당 단가가 아닌 **최소 비용 (Min Charge: 15만원 ~ 25만원)**이 적용됩니다.</li>
+        </ul>
+        <a href="#contact" class="btn-cta">💸 우리 집 맞춤 청소 비용 지금 확인하기</a>
+    </section>
+
+    <section id="checklist">
+        <span id="checklist-anchor" class="anchor"></span>
+        <h2>📝 이사 청소 전후 필수 체크리스트</h2>
+        <p>성공적인 대전이사청소를 위해 고객님께서 미리 준비하고, 청소 후 반드시 확인해야 할 사항들을 정리했습니다. 이 체크리스트를 활용하여 완벽한 청소 결과를 확보하세요.</p>
+        
+        <table style="text-align: center;">
+            <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>체크 사항</th>
+                    <th>세부 내용</th>
+                    <th>비고</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>청소 전</strong></td>
+                    <td><span class="highlight">전기/수도 점검</span></td>
+                    <td>청소 당일 전기 및 수도 사용 가능 여부 확인</td>
+                    <td>필수 확인</td>
+                </tr>
+                <tr>
+                    <td><strong>청소 전</strong></td>
+                    <td>난방 기구 철거</td>
+                    <td>벽걸이 에어컨 등 탈거가 필요한 경우 이사업체와 조율</td>
+                    <td>청소 범위 외</td>
+                </tr>
+                <tr>
+                    <td><strong>청소 전</strong></td>
+                    <td>개인 소지품 반출</td>
+                    <td>귀중품, 현금 등 모든 개인 소지품은 청소 전 미리 제거</td>
+                    <td>파손/분실 방지</td>
+                </tr>
+                <tr>
+                    <td><strong>청소 후</strong></td>
+                    <td><span class="highlight">창틀 & 방충망</span></td>
+                    <td>창틀 레일 먼지와 방충망 흙먼지 제거 여부 확인</td>
+                    <td>주요 검수 포인트</td>
+                </tr>
+                <tr>
+                    <td><strong>청소 후</strong></td>
+                    <td>주방 상부장 내부</td>
+                    <td>싱크대 상부장 내부 및 싱크대 걸레받이 안쪽 확인</td>
+                    <td>묵은 때 집중 구역</td>
+                </tr>
+                <tr>
+                    <td><strong>청소 후</strong></td>
+                    <td>욕실 배수구/환풍구</td>
+                    <td>분리하여 내부의 물때와 오염물질 제거 여부 확인</td>
+                    <td>악취 예방</td>
+                </tr>
+                <tr>
+                    <td><strong>청소 후</strong></td>
+                    <td>바닥 잔여 물기</td>
+                    <td>청소 후 바닥 물기 잔존 여부 확인 (미끄러움 방지)</td>
+                    <td>안전 확인</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="note">청소 검수는 <span class="highlight">청소 종료 최소 30분 전</span>에 도착하시어 꼼꼼히 진행하시는 것을 권장합니다. 특히 <span class="highlight">대전 대덕구 송촌동</span> 지역 빌라 청소의 경우 곰팡이 재발 가능성이 높아 환기 여부를 반드시 체크해야 합니다.</p>
+    </section>
+
+    <section id="trust">
+        <span id="trust-anchor" class="anchor"></span>
+        <h2>🔗 공신력 있는 외부 정보 및 신뢰성 확보</h2>
+        <p>대전이사청소 서비스를 이용하시기 전, 관련 정보를 함께 참고하시면 서비스 선택에 큰 도움이 됩니다. 저희는 투명하고 신뢰성 있는 정보 제공을 위해 공인된 외부 사이트 정보를 함께 제시합니다.</p>
+        
+        <ul>
+            <li>
+                <strong>이사 관련 법규 및 피해 구제 정보:</strong> 공정거래위원회의 소비자 분쟁 해결 기준 및 이사 관련 피해 구제 절차를 숙지하시어 만약의 상황에 대비하세요.
+                <br />참고: <a href="https://www.kca.go.kr/" target="_blank">한국소비자원 (KCA)</a>
+            </li>
+            <li>
+                <strong>건축 분진 및 새집 증후군 정보:</strong> 특히 <span class="highlight">대전 유성구 전민동</span> 신축 입주 청소 시 중요합니다. 실내 공기질 관리법 및 새집 증후군 유발 물질에 대한 정보를 확인하세요.
+                <br />참고: <a href="https://www.me.go.kr/home/web/main.do" target="_blank">환경부</a>
+            </li>
+            <li>
+                <strong>생활 폐기물 및 대형 폐기물 처리 안내:</strong> 이사 청소 과정에서 발생하는 대형 폐기물 처리 방법은 각 구청의 지침을 따릅니다.
+                <br />참고: <a href="https://www.daejeon.go.kr/drh/index.do" target="_blank">대전광역시청</a>
+            </li>
+            <li>
+                <strong>전입/퇴거 신고 및 행정 절차 안내:</strong> 이사 전후 필수 행정 절차(전입 신고, 확정 일자 등)를 미리 확인하여 누락 없이 진행하세요.
+                <br />참고: <a href="https://www.gov.kr/main?a=AA020InfoCapCtrl" target="_blank">정부24</a>
+            </li>
+            <li>
+                <strong>청소/용역 관련 산업 정보:</strong> 이사청소 산업 동향 및 서비스 표준 정보를 통해 전문 청소 서비스의 기준을 이해할 수 있습니다.
+                <br />참고: <a href="https://namu.wiki/w/%EC%B2%AD%EC%86%8C%EC%97%85" target="_blank">나무위키 - 청소업</a>
+            </li>
+        </ul>
+        <p>저희 대전이사청소 전문팀은 이러한 공신력 있는 정보를 바탕으로 서비스 품질을 유지하고, 고객님께 가장 안전하고 신뢰도 높은 청소 서비스를 제공하기 위해 노력하고 있습니다.</p>
+    </section>
+
+    <section id="contact">
+        <span id="contact-anchor" class="anchor"></span>
+        <h2>📞 대전이사청소 실시간 견적 상담 및 문의</h2>
+        <p>정확한 청소 견적을 위해 다음 정보를 상세히 기입해 주시면, 고객님의 주거 환경과 오염도에 맞는 최적의 견적과 청소 계획을 빠르게 안내해 드립니다. <span class="highlight">24시간 이내 전문 상담원 배정</span>을 원칙으로 합니다.</p>
+        
+        <form action="/submit-daejeon-cleaning-quote" method="POST">
+            <label for="name">고객 성함<span style="color:var(--secondary-color);">*</span></label>
+            <input type="text" id="name" name="name" required placeholder="예: 홍길동" />
+
+            <label for="phone">연락처<span style="color:var(--secondary-color);">*</span></label>
+            <input type="tel" id="phone" name="phone" required placeholder="010-1234-5678 (하이픈 포함)" pattern="[0-9\-]+" />
+
+            <label for="email">이메일 주소</label>
+            <input type="email" id="email" name="email" placeholder="견적서 수신용 (선택 사항)" />
+
+            <label for="move-type">청소 유형<span style="color:var(--secondary-color);">*</span></label>
+            <select id="move-type" name="move_type" required>
+                <option value="">선택하세요</option>
+                <option value="입주청소">입주 청소 (신축)</option>
+                <option value="이사청소">이사 청소 (거주했던 곳)</option>
+                <option value="거주청소">거주 청소 (살면서 부분 청소)</option>
+                <option value="기타">기타 (화재 청소, 특수 청소 등)</option>
+            </select>
+            
+            <label for="area">청소 주소 (대전 5개 구 중 선택)<span style="color:var(--secondary-color);">*</span></label>
+            <select id="area" name="area" required>
+                <option value="">구(區) 선택</option>
+                <option value="서구">서구 (둔산동, 갈마동 등)</option>
+                <option value="유성구">유성구 (노은동, 관평동 등)</option>
+                <option value="동구">동구 (가양동, 용운동 등)</option>
+                <option value="중구">중구 (태평동, 문화동 등)</option>
+                <option value="대덕구">대덕구 (송촌동, 법동 등)</option>
+            </select>
+            
+            <label for="address-detail">상세 주소 (동, 아파트/빌라명)<span style="color:var(--secondary-color);">*</span></label>
+            <input type="text" id="address-detail" name="address_detail" required placeholder="예: 서구 둔산동 햇님아파트 101동" />
+
+            <label for="size">평수 또는 면적 ($\text{m}^2$) (실평수 기준)</label>
+            <input type="text" id="size" name="size" placeholder="예: 34평 또는 84m²" />
+
+            <label for="move-date">희망 청소 날짜<span style="color:var(--secondary-color);">*</span></label>
+            <input type="text" id="move-date" name="move_date" required placeholder="예: 2026년 3월 15일" />
+
+            <label for="move-time">희망 시간대</label>
+            <select id="move-time" name="move_time">
+                <option value="오전">오전 8시 ~ 9시 시작</option>
+                <option value="오후">오후 12시 ~ 1시 시작</option>
+                <option value="협의">시간 협의 필요</option>
+            </select>
+
+            <label for="condition">특이 사항 및 오염도<span style="color:var(--secondary-color);">*</span></label>
+            <select id="condition" name="condition" required>
+                <option value="">선택하세요</option>
+                <option value="일반">일반적인 생활 오염</option>
+                <option value="높음">곰팡이, 기름때 등 오염도 높음</option>
+                <option value="심각">흡연, 반려동물, 장기간 방치 등 특수 오염</option>
+                <option value="신축">신축 건축 분진</option>
+            </select>
+            
+            <label for="add-service">추가 요청 서비스 (중복 선택 가능)</label>
+            <textarea id="add-service" name="add_service" rows="3" placeholder="예: 새집증후군 시공, 마루 코팅, 줄눈 시공 등 문의" style="resize: vertical;"></textarea>
+
+            <button type="submit">빠른 견적 문의 보내기</button>
+        </form>
+    </section>
+
+    <footer>
+        <p><strong>대전이사청소 전문:</strong> 믿음직한 청소 전문가 그룹</p>
+        <p>사무실: 대전광역시 서구 둔산로 100 | 사업자 등록번호: 987-65-43210</p>
+        <p>전화: <a href="tel:0429876543">042-987-6543</a> | 이메일: <a href="mailto:contact@daejeon-cleaning.com">contact@daejeon-cleaning.com</a></p>
+        <p>© 2026 대전이사청소 프리미엄 서비스. All rights reserved.</p>
+    </footer>
+</body>
 </html>
